@@ -21,8 +21,6 @@ export const actions = {
 			return fail(400, { error: 'Missing credentials' });
 		}
 
-		console.log(username);
-
 		const [user] = await db.select().from(usersTable).where(eq(usersTable.username, username));
 
 		console.log(user);
