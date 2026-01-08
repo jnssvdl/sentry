@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 // Tables
@@ -58,3 +58,14 @@ export const submissionsTable = sqliteTable('submissions', {
 });
 
 // Relations (DITO SA BABA, TAENA HINDI KO PA MA-GETS E HAHAHAHAHAHAHA!)
+
+export const usersRelations = relations(usersTable, ({ many }) => ({
+	categories: many(categoriesTable)
+}));
+
+export const categoriesRelations = relations(categoriesTable, ({ one }) => ({
+	faculty: one(usersTable, {
+		fields: [categoriesTable.facultyId],
+		references: [usersTable.id]
+	})
+}));
