@@ -17,6 +17,14 @@ export const usersTable = sqliteTable('users', {
 		.default(sql`(CURRENT_TIMESTAMP)`)
 });
 
+export const sessionsTable = sqliteTable('sessions', {
+	id: text('id').primaryKey(),
+	userId: integer('user_id')
+		.notNull()
+		.references(() => usersTable.id),
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+});
+
 export const studentsTable = sqliteTable('students', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	userId: integer('user_id')
