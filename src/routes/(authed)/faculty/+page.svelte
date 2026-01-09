@@ -2,6 +2,7 @@
 	import type { PageProps } from './$types';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { FileText, Calendar, ChartBarStacked, Users } from '@lucide/svelte';
+	import StatCard from '$lib/components/StatCard.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -11,13 +12,11 @@
 			timeStyle: 'short'
 		}).format(new Date(value));
 
-	const submissionCount = $derived(data.facultySubmissions.length);
+	let submissionCount = $derived(data.facultySubmissions.length);
 
-	const uniqueStudents = $derived(new Set(data.facultySubmissions.map((s) => s.studentTag)).size);
+	let uniqueStudents = $derived(new Set(data.facultySubmissions.map((s) => s.studentTag)).size);
 
-	const uniqueCategories = $derived(
-		new Set(data.facultySubmissions.map((s) => s.categoryName)).size
-	);
+	let uniqueCategories = $derived(new Set(data.facultySubmissions.map((s) => s.categoryId)).size);
 </script>
 
 <div class="px-4 py-8 sm:px-6 lg:px-8">
@@ -25,46 +24,14 @@
 	<div class="container mx-auto mb-12 max-w-7xl">
 		<div class="mb-8">
 			<h1 class="mb-2 text-4xl font-bold tracking-tight sm:text-5xl">Student Submissions</h1>
-			<p class="text-lg">Review submissions sent to your categories</p>
+			<p class="text-lg">Review submissions sent to your box</p>
 		</div>
 
 		<!-- Stats -->
 		<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-			<div class="rounded-lg border bg-card p-6 shadow-sm">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-sm font-medium">Total Submissions</p>
-						<p class="mt-1 text-3xl font-bold">{submissionCount}</p>
-					</div>
-					<div class="rounded-lg bg-accent p-3">
-						<FileText class="h-6 w-6 text-accent-foreground" />
-					</div>
-				</div>
-			</div>
-
-			<div class="rounded-lg border bg-card p-6 shadow-sm">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-sm font-medium">Categories</p>
-						<p class="mt-1 text-3xl font-bold">{uniqueCategories}</p>
-					</div>
-					<div class="rounded-lg bg-accent p-3">
-						<ChartBarStacked class="h-6 w-6 text-accent-foreground" />
-					</div>
-				</div>
-			</div>
-
-			<div class="rounded-lg border bg-card p-6 shadow-sm">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-sm font-medium">Students</p>
-						<p class="mt-1 text-3xl font-bold">{uniqueStudents}</p>
-					</div>
-					<div class="rounded-lg bg-accent p-3">
-						<Users class="h-6 w-6 text-accent-foreground" />
-					</div>
-				</div>
-			</div>
+			<StatCard label="Total Submissions" value={submissionCount} Icon={FileText} />
+			<StatCard label="Categories" value={uniqueCategories} Icon={ChartBarStacked} />
+			<StatCard label="Students" value={uniqueStudents} Icon={Users} />
 		</div>
 	</div>
 
@@ -85,7 +52,7 @@
 					<Table.Body>
 						{#if data.facultySubmissions.length === 0}
 							<Table.Row>
-								<Table.Cell colspan={5} class="px-6 py-12 text-center text-muted-foreground">
+								<Table.Cell colspan={4} class="px-6 py-12 text-center text-muted-foreground">
 									<div class="flex flex-col items-center gap-2">
 										<FileText class="h-8 w-8 opacity-40" />
 										<p>No submissions yet</p>

@@ -12,7 +12,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 			submissionId: submissionsTable.id,
 			reason: submissionsTable.reason,
 			createdAt: submissionsTable.createdAt,
+			categoryId: categoriesTable.id,
 			categoryName: categoriesTable.name,
+			facultyId: usersTable.id,
 			facultyFirstName: usersTable.firstName,
 			facultyLastName: usersTable.lastName,
 			facultyEmail: usersTable.email

@@ -2,6 +2,7 @@
 	import type { PageProps } from './$types';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { FileText, Calendar, ChartBarStacked, Users } from '@lucide/svelte';
+	import StatCard from '$lib/components/StatCard.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -11,7 +12,9 @@
 			timeStyle: 'short'
 		}).format(new Date(value));
 
-	const submissionCount = $derived(data.submissions.length);
+	let submissionCount = $derived(data.submissions.length);
+	let uniqueCategories = $derived(new Set(data.submissions.map((s) => s.categoryId)).size);
+	let uniqueFaculties = $derived(new Set(data.submissions.map((s) => s.facultyId)).size);
 </script>
 
 <div class="px-4 py-8 sm:px-6 lg:px-8">
@@ -24,46 +27,9 @@
 
 		<!-- Stats Bar -->
 		<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-			<div class="rounded-lg border bg-card p-6 shadow-sm">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-sm font-medium">Total Submissions</p>
-						<p class="mt-1 text-3xl font-bold">{submissionCount}</p>
-					</div>
-					<div class="rounded-lg bg-accent p-3">
-						<FileText class="h-6 w-6 text-accent-foreground" />
-					</div>
-				</div>
-			</div>
-
-			<div class="rounded-lg border bg-card p-6 shadow-sm">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-sm font-medium">Categories</p>
-						<p class="mt-1 text-3xl font-bold">
-							{new Set(data.submissions.map((s) => s.categoryName)).size}
-						</p>
-					</div>
-					<div class="rounded-lg bg-accent p-3">
-						<ChartBarStacked class="h-6 w-6 text-accent-foreground" />
-					</div>
-				</div>
-			</div>
-
-			<div class="rounded-lg border bg-card p-6 shadow-sm">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-sm font-medium">Reviewers</p>
-						<p class="mt-1 text-3xl font-bold">
-							{new Set(data.submissions.map((s) => s.facultyFirstName + ' ' + s.facultyLastName))
-								.size}
-						</p>
-					</div>
-					<div class="rounded-lg bg-accent p-3">
-						<Users class="h-6 w-6 text-accent-foreground" />
-					</div>
-				</div>
-			</div>
+			<StatCard label="Total Submissions" value={submissionCount} Icon={FileText} />
+			<StatCard label="Categories" value={uniqueCategories} Icon={ChartBarStacked} />
+			<StatCard label="Faculties" value={uniqueFaculties} Icon={Users} />
 		</div>
 	</div>
 

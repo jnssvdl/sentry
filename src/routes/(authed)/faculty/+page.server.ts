@@ -17,6 +17,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 			submissionId: submissionsTable.id,
 			createdAt: submissionsTable.createdAt,
 			reason: submissionsTable.reason,
+			categoryId: categoriesTable.id,
 			categoryName: categoriesTable.name,
 			studentTag: studentsTable.tag,
 			studentFirstName: usersTable.firstName,
@@ -28,8 +29,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.innerJoin(studentsTable, eq(submissionsTable.studentId, studentsTable.id))
 		.innerJoin(usersTable, eq(studentsTable.userId, usersTable.id))
 		.where(eq(categoriesTable.facultyId, facultyUser.id));
-
-	console.log(facultySubmissions);
 
 	return { facultySubmissions };
 };
