@@ -14,7 +14,7 @@
 	const submissionCount = $derived(data.submissions.length);
 </script>
 
-<div class="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
+<div class="px-4 py-8 sm:px-6 lg:px-8">
 	<!-- Header Section -->
 	<div class="container mx-auto mb-12 max-w-7xl">
 		<div class="mb-8">
