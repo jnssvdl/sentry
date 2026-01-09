@@ -57,8 +57,7 @@ export const submissionsTable = sqliteTable('submissions', {
 	reason: text('reason')
 });
 
-// Relations (DITO SA BABA, TAENA HINDI KO PA MA-GETS E HAHAHAHAHAHAHA!)
-
+// Relations
 export const usersRelations = relations(usersTable, ({ many }) => ({
 	categories: many(categoriesTable)
 }));

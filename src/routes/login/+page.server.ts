@@ -30,6 +30,8 @@ export const actions = {
 		}
 
 		const valid = await verifyPassword(password, user.password);
+		// const valid = password === user.password;
+
 		if (!valid) {
 			return fail(400, { error: 'Invalid credentials' });
 		}
