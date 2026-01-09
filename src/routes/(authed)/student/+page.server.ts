@@ -1,6 +1,11 @@
 import { requireRole } from '$lib/server/auth/guards';
 import { db } from '$lib/server/db/index.js';
-import { categoriesTable, submissionsTable, usersTable } from '$lib/server/db/schema.js';
+import {
+	categoriesTable,
+	studentsTable,
+	submissionsTable,
+	usersTable
+} from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
@@ -20,9 +25,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 			facultyEmail: usersTable.email
 		})
 		.from(submissionsTable)
+		.innerJoin(studentsTable, eq(submissionsTable.studentId, studentsTable.id))
 		.innerJoin(categoriesTable, eq(submissionsTable.categoryId, categoriesTable.id))
 		.innerJoin(usersTable, eq(categoriesTable.facultyId, usersTable.id))
-		.where(eq(submissionsTable.studentId, studentUser.id));
+		.where(eq(studentsTable.userId, studentUser.id));
 
 	return { submissions };
 };
