@@ -1,4 +1,4 @@
-import { verifyPassword } from '$lib/server/auth/password.js';
+// import { verifyPassword } from '$lib/server/auth/password.js';
 import { createSession } from '$lib/server/auth/session.js';
 import { db } from '$lib/server/db';
 import { usersTable } from '$lib/server/db/schema';
@@ -18,22 +18,24 @@ export const actions = {
 		const password = form.get('password')?.toString();
 
 		if (!username || !password) {
-			return fail(400, { error: 'Missing credentials' });
+			return fail(400, {
+				username,
+				usernameMissing: !username,
+				passwordMissing: !password
+			});
 		}
 
 		const [user] = await db.select().from(usersTable).where(eq(usersTable.username, username));
 
-		console.log(user);
-
 		if (!user) {
-			return fail(400, { error: 'Invalid credentials' });
+			return fail(400, { username, invalidUsername: true });
 		}
 
-		const valid = await verifyPassword(password, user.password);
-		// const valid = password === user.password;
+		// const valid = await verifyPassword(password, user.password);
+		const valid = password === user.password;
 
 		if (!valid) {
-			return fail(400, { error: 'Invalid credentials' });
+			return fail(400, { username, invalidPassword: true });
 		}
 
 		const sessionId = await createSession(user.id);
