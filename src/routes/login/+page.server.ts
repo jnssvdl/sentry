@@ -1,4 +1,4 @@
-// import { verifyPassword } from '$lib/server/auth/password.js';
+import { verifyPassword } from '$lib/server/auth/password';
 import { createSession } from '$lib/server/auth/session.js';
 import { db } from '$lib/server/db';
 import { usersTable } from '$lib/server/db/schema';
@@ -31,8 +31,7 @@ export const actions = {
 			return fail(400, { username, invalidUsername: true });
 		}
 
-		// const valid = await verifyPassword(password, user.password);
-		const valid = password === user.password;
+		const valid = await verifyPassword(password, user.password);
 
 		if (!valid) {
 			return fail(400, { username, invalidPassword: true });

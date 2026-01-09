@@ -12,7 +12,7 @@ export const usersTable = sqliteTable('users', {
 	role: text('role', { enum: ['student', 'faculty', 'admin'] })
 		.notNull()
 		.default('student'),
-	createdAt: integer('created_at', { mode: 'timestamp' })
+	createdAt: integer('created_at')
 		.notNull()
 		.default(sql`(CURRENT_TIMESTAMP)`)
 });
@@ -44,7 +44,7 @@ export const categoriesTable = sqliteTable('categories', {
 
 export const submissionsTable = sqliteTable('submissions', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
-	createdAt: integer('created_at', { mode: 'timestamp' })
+	createdAt: integer('created_at')
 		.notNull()
 		.default(sql`(CURRENT_TIMESTAMP)`),
 	categoryId: integer('category_id')
@@ -52,7 +52,6 @@ export const submissionsTable = sqliteTable('submissions', {
 		.references(() => categoriesTable.id, { onDelete: 'cascade' }),
 	studentId: integer('student_id')
 		.notNull()
-		.unique()
 		.references(() => studentsTable.id, { onDelete: 'cascade' }),
 	reason: text('reason')
 });
