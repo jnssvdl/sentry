@@ -1,18 +1,22 @@
 <script lang="ts">
-	import { Box, Boxes } from '@lucide/svelte';
 	import {
 		FieldGroup,
 		Field,
 		FieldLabel,
 		FieldDescription,
-		FieldSeparator,
 		FieldError
 	} from '$lib/components/ui/field/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { resetMode, setMode } from 'mode-watcher';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import MoonIcon from '@lucide/svelte/icons/moon';
+	import { Box } from '@lucide/svelte';
 	import { enhance } from '$app/forms';
-	let { form } = $props();
 
+	let { form } = $props();
 	let username = $state('');
 	let password = $state('');
 
@@ -22,6 +26,25 @@
 
 <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
 	<div class="w-full max-w-sm">
+		<div class="fixed top-4 right-5">
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger class={buttonVariants({ variant: 'ghost', size: 'icon' })}>
+					<SunIcon
+						class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
+					/>
+					<MoonIcon
+						class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all! dark:scale-100 dark:rotate-0"
+					/>
+					<span class="sr-only">Toggle theme</span>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content align="end">
+					<DropdownMenu.Item onclick={() => setMode('light')}>Light</DropdownMenu.Item>
+					<DropdownMenu.Item onclick={() => setMode('dark')}>Dark</DropdownMenu.Item>
+					<DropdownMenu.Item onclick={() => resetMode()}>System</DropdownMenu.Item>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		</div>
+
 		<form method="POST" action="?/login" use:enhance>
 			<FieldGroup>
 				<div class="flex flex-col items-center gap-4 text-center">
