@@ -16,7 +16,7 @@
 
 <div class="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
 	<!-- Header Section -->
-	<div class="mx-auto mb-12 max-w-6xl">
+	<div class="container mx-auto mb-12 max-w-7xl">
 		<div class="mb-8">
 			<h1 class="mb-2 text-4xl font-bold tracking-tight sm:text-5xl">Submissions</h1>
 			<p class="text-lg">Manage and review all submitted works</p>
@@ -30,8 +30,8 @@
 						<p class="text-sm font-medium">Total Submissions</p>
 						<p class="mt-1 text-3xl font-bold">{submissionCount}</p>
 					</div>
-					<div class="rounded-lg bg-blue-100 p-3 dark:bg-blue-900/30">
-						<FileText class="h-6 w-6 text-blue-600 dark:text-blue-400" />
+					<div class="rounded-lg bg-accent p-3">
+						<FileText class="h-6 w-6 text-accent-foreground" />
 					</div>
 				</div>
 			</div>
@@ -44,8 +44,8 @@
 							{new Set(data.submissions.map((s) => s.categoryName)).size}
 						</p>
 					</div>
-					<div class="rounded-lg bg-emerald-100 p-3 dark:bg-emerald-900/30">
-						<ChartBarStacked class="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+					<div class="rounded-lg bg-accent p-3">
+						<ChartBarStacked class="h-6 w-6 text-accent-foreground" />
 					</div>
 				</div>
 			</div>
@@ -59,8 +59,8 @@
 								.size}
 						</p>
 					</div>
-					<div class="rounded-lg bg-violet-100 p-3 dark:bg-violet-900/30">
-						<Users class="h-6 w-6 text-violet-600 dark:text-violet-400" />
+					<div class="rounded-lg bg-accent p-3">
+						<Users class="h-6 w-6 text-accent-foreground" />
 					</div>
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 	</div>
 
 	<!-- Table Section -->
-	<div class="mx-auto max-w-6xl">
+	<div class="container mx-auto max-w-7xl">
 		<div class="overflow-hidden rounded-xl border shadow-sm">
 			<div class="overflow-x-auto">
 				<Table.Root>
@@ -82,11 +82,8 @@
 
 					<Table.Body>
 						{#if data.submissions.length === 0}
-							<Table.Row class="border-b ">
-								<Table.Cell
-									colspan={3}
-									class="px-6 py-12 text-center text-slate-500 dark:text-slate-400"
-								>
+							<Table.Row class="border-b">
+								<Table.Cell colspan={3} class="px-6 py-12 text-center text-muted-foreground">
 									<div class="flex flex-col items-center gap-2">
 										<FileText class="h-8 w-8 opacity-40" />
 										<p class="text-base">No submissions found yet</p>
@@ -96,36 +93,46 @@
 						{:else}
 							{#each data.submissions as submission (submission.submissionId)}
 								<Table.Row class="border-b">
+									<!-- Faculty -->
 									<Table.Cell class="px-6 py-4 font-medium">
 										<div class="flex items-center gap-3">
 											<div class="shrink-0">
 												<div
-													class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30"
+													class="flex h-10 w-10 items-center justify-center rounded-full bg-accent"
 												>
-													<span class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+													<span class="text-sm font-semibold text-accent-foreground">
 														{submission.facultyFirstName.charAt(
 															0
 														)}{submission.facultyLastName.charAt(0)}
 													</span>
 												</div>
 											</div>
+
 											<div>
 												<p class="font-medium">
 													{submission.facultyFirstName}
 													{submission.facultyLastName}
 												</p>
+												<a
+													href={`mailto:${submission.facultyEmail}`}
+													class="text-xs text-muted-foreground underline-offset-4 hover:underline"
+												>
+													{submission.facultyEmail}
+												</a>
 											</div>
 										</div>
 									</Table.Cell>
 
-									<Table.Cell class="px-6 py-4 ">
+									<!-- Category -->
+									<Table.Cell class="px-6 py-4">
 										<span
-											class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium"
+											class="inline-flex items-center rounded-full bg-accent px-3 py-1 text-sm font-medium text-accent-foreground"
 										>
 											{submission.categoryName}
 										</span>
 									</Table.Cell>
 
+									<!-- Date -->
 									<Table.Cell class="px-6 py-4 text-sm">
 										<div class="flex items-center gap-2">
 											<Calendar class="h-4 w-4 text-muted-foreground" />

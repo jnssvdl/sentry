@@ -14,7 +14,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 			createdAt: submissionsTable.createdAt,
 			categoryName: categoriesTable.name,
 			facultyFirstName: usersTable.firstName,
-			facultyLastName: usersTable.lastName
+			facultyLastName: usersTable.lastName,
+			facultyEmail: usersTable.email
 		})
 		.from(submissionsTable)
 		.innerJoin(categoriesTable, eq(submissionsTable.categoryId, categoriesTable.id))
