@@ -1,10 +1,16 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
 	import * as Table from '$lib/components/ui/table/index.js';
-	import { FileText, Calendar, ChartBarStacked, Users } from '@lucide/svelte';
+	import { FileText, Calendar, ChartBarStacked, Users, Plus, Trash2 } from '@lucide/svelte';
 	import StatCard from '$lib/components/StatCard.svelte';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import { enhance } from '$app/forms';
+	import * as Field from '$lib/components/ui/field/index.js';
+	import CategoryItem from '$lib/components/CategoryItem.svelte';
 
-	let { data }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 
 	const formatDate = (value: string | number | Date) =>
 		new Intl.DateTimeFormat('en-US', {
@@ -22,9 +28,61 @@
 <div class="px-4 py-8 sm:px-6 lg:px-8">
 	<!-- Header -->
 	<div class="container mx-auto mb-12 max-w-7xl">
-		<div class="mb-8">
-			<h1 class="mb-2 text-4xl font-bold tracking-tight sm:text-5xl">Student Submissions</h1>
-			<p class="text-lg">Review submissions sent to your box</p>
+		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<div>
+				<h1 class="mb-2 text-4xl font-bold tracking-tight sm:text-5xl">Student Submissions</h1>
+				<p class="text-lg text-muted-foreground">Review submissions sent to your box</p>
+			</div>
+
+			<Dialog.Root>
+				<Dialog.Trigger>
+					{#snippet child({ props })}
+						<Button {...props}><ChartBarStacked />Manage Categories</Button>
+					{/snippet}
+				</Dialog.Trigger>
+
+				<Dialog.Content>
+					<Dialog.Header>
+						<Dialog.Title>Categories</Dialog.Title>
+						<Dialog.Description
+							>Here is the list of categories for your submissions.</Dialog.Description
+						>
+					</Dialog.Header>
+
+					<form method="POST" action="?/create" use:enhance>
+						<Field.Group>
+							<Field.Field>
+								<div class="flex gap-2">
+									<Input
+										type="text"
+										name="name"
+										placeholder="New category name"
+										class="flex-1 rounded-md border px-3 py-2"
+										required
+									/>
+									<Button class="bg-primary text-primary-foreground" type="submit"
+										>Add<Plus /></Button
+									>
+								</div>
+								{#if form?.missingName}
+									<Field.Error class="text-destructive">Category name is required</Field.Error>{/if}
+							</Field.Field>
+						</Field.Group>
+					</form>
+
+					<ul class="max-h-60 space-y-2 overflow-y-auto">
+						{#if data.facultyCategories.length === 0}
+							<li class="text-sm text-muted-foreground">No categories yet</li>
+						{:else}
+							{#each data.facultyCategories as category (category.id)}
+								<li class="flex items-center justify-between rounded-md border px-3 py-2">
+									<CategoryItem {category} />
+								</li>
+							{/each}
+						{/if}
+					</ul>
+				</Dialog.Content>
+			</Dialog.Root>
 		</div>
 
 		<!-- Stats -->
