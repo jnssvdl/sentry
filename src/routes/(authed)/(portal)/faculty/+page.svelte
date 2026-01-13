@@ -9,14 +9,9 @@
 	import { enhance } from '$app/forms';
 	import * as Field from '$lib/components/ui/field/index.js';
 	import CategoryItem from '$lib/components/CategoryItem.svelte';
+	import { formatDate } from '$lib/utils';
 
 	let { data, form }: PageProps = $props();
-
-	const formatDate = (value: string | number | Date) =>
-		new Intl.DateTimeFormat('en-US', {
-			dateStyle: 'medium',
-			timeStyle: 'short'
-		}).format(new Date(value));
 
 	let submissionCount = $derived(data.facultySubmissions.length);
 

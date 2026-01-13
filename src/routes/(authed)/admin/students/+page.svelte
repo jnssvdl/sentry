@@ -1,7 +1,28 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import AdminUserTable from '$lib/components/AdminUserTable.svelte';
 
-	let { data }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 </script>
 
-<h1>TODO: Students Registration</h1>
+<div class="px-4 py-8 sm:px-6 lg:px-8">
+	<header class="container mx-auto mb-12 max-w-7xl">
+		<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<div>
+				<h1 class="mb-2 text-4xl font-bold tracking-tight sm:text-5xl">Students</h1>
+				<p class="text-lg text-muted-foreground">Manage student accounts</p>
+			</div>
+
+			<Button>Register</Button>
+		</div>
+	</header>
+
+	<main class="container mx-auto max-w-7xl">
+		<div class="overflow-hidden rounded-xl border shadow-sm">
+			<div class="overflow-x-auto">
+				<AdminUserTable role="Student" users={data.studentUsers} />
+			</div>
+		</div>
+	</main>
+</div>

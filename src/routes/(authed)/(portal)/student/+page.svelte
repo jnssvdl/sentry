@@ -3,14 +3,9 @@
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { FileText, Calendar, ChartBarStacked, Users } from '@lucide/svelte';
 	import StatCard from '$lib/components/StatCard.svelte';
+	import { formatDate } from '$lib/utils';
 
 	let { data }: PageProps = $props();
-
-	const formatDate = (value: string | Date) =>
-		new Intl.DateTimeFormat('en-US', {
-			dateStyle: 'medium',
-			timeStyle: 'short'
-		}).format(new Date(value));
 
 	let submissionCount = $derived(data.submissions.length);
 	let uniqueCategories = $derived(new Set(data.submissions.map((s) => s.categoryId)).size);
