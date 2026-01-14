@@ -19,7 +19,6 @@ export const actions = {
 		const lastName = form.get('last-name')?.toString();
 		const email = form.get('email')?.toString();
 		const username = form.get('username')?.toString();
-
 		const password = form?.get('password')?.toString();
 		const confirmPassword = form?.get('confirm-password')?.toString();
 

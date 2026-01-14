@@ -12,7 +12,7 @@
 		<Table.Row class="border-b bg-card">
 			<Table.Head class="px-6 py-4 font-semibold">{role} Name</Table.Head>
 			<Table.Head class="px-6 py-4 font-semibold">Username</Table.Head>
-			<Table.Head class="px-6 py-4 font-semibold">Categories</Table.Head>
+			<!-- <Table.Head class="px-6 py-4 font-semibold">Categories</Table.Head> -->
 			<Table.Head class="px-6 py-4 font-semibold">Joined</Table.Head>
 		</Table.Row>
 	</Table.Header>
@@ -66,9 +66,9 @@
 					</Table.Cell>
 
 					<!-- Categories -->
-					<Table.Cell class="px-6 py-4">
+					<!-- <Table.Cell class="px-6 py-4">
 						<Button variant="link">Show</Button>
-					</Table.Cell>
+					</Table.Cell> -->
 
 					<!-- Date -->
 					<Table.Cell class="px-6 py-4 text-sm">

@@ -5,17 +5,19 @@
 	interface Props {
 		role: string;
 		form: {
-			missing?: boolean;
-			mismatchPassword?: boolean;
 			success?: boolean;
-			usernameExists?: boolean;
+			missing?: boolean;
 			emailExists?: boolean;
+			tagExists?: boolean;
+			usernameExists?: boolean;
+			mismatchPassword?: boolean;
 		} | null;
 	}
 
 	let { role, form }: Props = $props();
 
 	let showEmailExists = $derived(form?.emailExists);
+	let showRFIDExists = $derived(form?.tagExists);
 	let showUsernameExists = $derived(form?.usernameExists);
 	let showPasswordError = $derived(form?.mismatchPassword);
 </script>
@@ -57,7 +59,19 @@
 		<!-- RFID -->
 		<Field.Field>
 			<Field.Label for="tag">RFID Tag</Field.Label>
-			<Input id="tag" type="text" name="tag" placeholder="RFID-01" required />
+			<Input
+				id="tag"
+				type="text"
+				name="tag"
+				placeholder="RFID-01"
+				class={showRFIDExists ? 'border-destructive' : ''}
+				oninput={() => (showRFIDExists = false)}
+				required
+			/>
+
+			{#if showRFIDExists}
+				<Field.FieldError>A student with this tag already exists.</Field.FieldError>
+			{/if}
 		</Field.Field>
 	{/if}
 

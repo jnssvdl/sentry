@@ -8,8 +8,6 @@
 	import { enhance } from '$app/forms';
 
 	let { data, form }: PageProps = $props();
-
-	let showPasswordError = $derived(form?.mismatchPassword);
 	let isOpen = $state(false);
 </script>
 
