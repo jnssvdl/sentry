@@ -29,9 +29,9 @@
 
 				<Dialog.Content interactOutsideBehavior="ignore">
 					<Dialog.Header>
-						<Dialog.Title>Add Faculty</Dialog.Title>
+						<Dialog.Title>Add Student</Dialog.Title>
 						<Dialog.Description>
-							Provide the information for the new faculty member.
+							Provide the information for the new student member.
 						</Dialog.Description>
 					</Dialog.Header>
 
@@ -64,7 +64,7 @@
 	<main class="container mx-auto max-w-7xl">
 		<div class="overflow-hidden rounded-xl border shadow-sm">
 			<div class="overflow-x-auto">
-				<AdminUserTable role="Student" users={data.studentUsers} />
+				<AdminUserTable role="student" users={data.studentUsers} />
 			</div>
 		</div>
 	</main>

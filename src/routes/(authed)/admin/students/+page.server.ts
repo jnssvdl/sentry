@@ -6,7 +6,19 @@ import { fail } from '@sveltejs/kit';
 import { hashPassword, verifyPassword } from '$lib/server/auth/password.js';
 
 export const load: PageServerLoad = async () => {
-	const studentUsers = await db.select().from(usersTable).where(eq(usersTable.role, 'student'));
+	const studentUsers = await db
+		.select({
+			id: usersTable.id,
+			firstName: usersTable.firstName,
+			lastName: usersTable.lastName,
+			email: usersTable.email,
+			username: usersTable.username,
+			tag: studentsTable.tag,
+			createdAt: usersTable.createdAt
+		})
+		.from(usersTable)
+		.innerJoin(studentsTable, eq(usersTable.id, studentsTable.userId))
+		.where(eq(usersTable.role, 'student'));
 
 	return { studentUsers };
 };

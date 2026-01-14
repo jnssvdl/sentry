@@ -64,7 +64,7 @@
 	<main class="container mx-auto max-w-7xl">
 		<div class="overflow-hidden rounded-xl border shadow-sm">
 			<div class="overflow-x-auto">
-				<AdminUserTable role="Faculty" users={data.facultyUsers} />
+				<AdminUserTable role="faculty" users={data.facultyUsers} />
 			</div>
 		</div>
 	</main>

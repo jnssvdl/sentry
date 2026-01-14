@@ -10,9 +10,17 @@
 <Table.Root>
 	<Table.Header>
 		<Table.Row class="border-b bg-card">
-			<Table.Head class="px-6 py-4 font-semibold">{role} Name</Table.Head>
+			<Table.Head class="px-6 py-4 font-semibold">
+				{role.charAt(0).toUpperCase() + role.slice(1)} Name
+			</Table.Head>
 			<Table.Head class="px-6 py-4 font-semibold">Username</Table.Head>
-			<!-- <Table.Head class="px-6 py-4 font-semibold">Categories</Table.Head> -->
+			<!-- {#if role === 'faculty'}
+				<Table.Head class="px-6 py-4 font-semibold">Categories</Table.Head>
+			{/if} -->
+
+			{#if role === 'student'}
+				<Table.Head class="px-6 py-4 font-semibold">Tag</Table.Head>
+			{/if}
 			<Table.Head class="px-6 py-4 font-semibold">Joined</Table.Head>
 		</Table.Row>
 	</Table.Header>
@@ -66,9 +74,22 @@
 					</Table.Cell>
 
 					<!-- Categories -->
-					<!-- <Table.Cell class="px-6 py-4">
-						<Button variant="link">Show</Button>
-					</Table.Cell> -->
+					<!-- {#if role === 'faculty'}
+						<Table.Cell class="px-6 py-4">
+							<Button variant="link">Show</Button>
+						</Table.Cell>
+					{/if} -->
+
+					<!-- RFID Tag -->
+					{#if role === 'student'}
+						<Table.Cell class="px-6 py-4">
+							<span
+								class="inline-flex rounded-full bg-accent px-3 py-1 text-sm font-medium text-accent-foreground"
+							>
+								{user.tag}
+							</span>
+						</Table.Cell>
+					{/if}
 
 					<!-- Date -->
 					<Table.Cell class="px-6 py-4 text-sm">
